@@ -24,6 +24,14 @@ if os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY"):
     embedding_model = GoogleGenerativeAIEmbeddings(
         model = "gemini-embedding-001"
     )
+
+    vector_store = QdrantVectorStore.from_documents(
+    documents = chunks,
+    embedding = embedding_model,
+    url = "http://localhost:6333",
+    collection_name = "RAGNAR_GOOGLE"
+    )
+
 elif os.getenv("OPENAI_API_KEY"):
     from langchain_openai import OpenAIEmbeddings
 
@@ -31,11 +39,11 @@ elif os.getenv("OPENAI_API_KEY"):
         model = "text-embedding-3-small"
     )
 
-vector_store = QdrantVectorStore.from_documents(
+    vector_store = QdrantVectorStore.from_documents(
     documents = chunks,
     embedding = embedding_model,
     url = "http://localhost:6333",
-    collection_name = "RAGNAR"
-)
+    collection_name = "RAGNAR_OPENAI"
+    )
 
 print("Find Vector DB here: http://localhost:6333/dashboard#/collections")
