@@ -2,8 +2,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_qdrant import QdrantVectorStore
+import os
 
 load_dotenv()
 pdf_path = Path(__file__).parent / "Q&A.pdf"
@@ -18,9 +18,18 @@ text_splitter = RecursiveCharacterTextSplitter(
 
 chunks = text_splitter.split_documents(documents = docs)
 
-embedding_model = GoogleGenerativeAIEmbeddings(
-    model = "gemini-embedding-001"
-)
+if os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY"):
+    from langchain_google_genai import GoogleGenerativeAIEmbeddings
+
+    embedding_model = GoogleGenerativeAIEmbeddings(
+        model = "gemini-embedding-001"
+    )
+elif os.getenv("OPENAI_API_KEY"):
+    from langchain_openai import OpenAIEmbeddings
+
+    embedding_model = OpenAIEmbeddings(
+        model = "text-embedding-3-small"
+    )
 
 vector_store = QdrantVectorStore.from_documents(
     documents = chunks,
