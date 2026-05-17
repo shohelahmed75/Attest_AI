@@ -62,7 +62,6 @@ def g_ragnar():
                 )
             )
 
-
             
             print("\n\033[92mRAGNAR:\033[0m")
             for chunk in response:
@@ -74,4 +73,65 @@ def g_ragnar():
                 {"role": "model", "parts": [{"text": assistant}]}
             )
             break
-g_ragnar()
+
+def g_ragnar_chat(query: str, history: list, collection_name: str = "RAGNAR_GOOGLE"):
+    from google import genai
+    from google.genai import types
+    from dotenv import load_dotenv
+    from langchain_google_genai import GoogleGenerativeAIEmbeddings
+    from langchain_qdrant import QdrantVectorStore
+
+    load_dotenv()
+    ai = genai.Client()
+
+    system_prompt = """
+        You are RAGNAR, an advanced Retrieval-Augmented Generation (RAG) AI assistant.
+
+        Rules:
+        - Always base your answers strictly on the provided context.
+        - Do not make up information or assumptions.
+        - If the answer is not available in the provided context, say:
+        "The requested information is not available in the provided context."
+        - Then ask:
+        "Would you like me to answer using general knowledge instead?" except for the information about yourself.
+        - Keep responses clear, accurate, and concise.
+        - Avoid repeating large sections of documents unless specifically requested.
+
+        Your mission is to function as a trusted document intelligence engine focused on accuracy, clarity, contextual relevance, and analytical precision.
+
+        Your name is inspired by the famous Viking Ragnar Lothbrok.
+    """
+
+    embedding_model = GoogleGenerativeAIEmbeddings(
+        model = "gemini-embedding-001"
+    )
+
+    vector_db = QdrantVectorStore.from_existing_collection(
+        embedding = embedding_model,
+        url = "http://localhost:6333",
+        collection_name = collection_name
+    )
+
+    vector_result = vector_db.similarity_search(query = query)
+    context = "\n\n\n".join([f"Page Content: {res.page_content}\nPage Number: {res.metadata['page_label']}"
+    for res in vector_result])
+
+    formatted_history = []
+    for msg in history:
+        formatted_history.append({"role": msg["role"], "parts": [{"text": msg["content"]}]})
+
+    formatted_history.append(
+        {"role": "user", "parts": [{"text": f"context: {context}\n\nuser question: {query}"}]}
+    )
+
+    response = ai.models.generate_content(
+        model = "gemini-3-flash-preview",
+        contents = formatted_history,
+        config = types.GenerateContentConfig(
+            system_instruction = system_prompt
+        )
+    )
+    return response.text
+
+if __name__ == "__main__":
+    g_ragnar()
