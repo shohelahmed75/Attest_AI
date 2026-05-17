@@ -27,16 +27,23 @@ class ChatRequest(BaseModel):
 
 @app.post("/upload")
 async def upload_pdf(file: UploadFile = File(...)):
+    import tempfile
     try:
-        # Save file with its original name
         file_name = file.filename or "uploaded.pdf"
-        pdf_path = Path(__file__).parent / file_name
-        with open(pdf_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
         
-        # Trigger the RAG ingestion
-        from rag import process_pdf
-        collection_name = process_pdf(str(pdf_path))
+        # Create a temporary file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+            shutil.copyfileobj(file.file, tmp)
+            tmp_path = tmp.name
+        
+        try:
+            # Trigger the RAG ingestion
+            from rag import process_pdf
+            collection_name = process_pdf(tmp_path, original_file_name=file_name)
+        finally:
+            # Always clean up the temporary file after processing
+            if os.path.exists(tmp_path):
+                os.remove(tmp_path)
         
         return {
             "message": "Document uploaded and processed successfully.",

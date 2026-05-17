@@ -7,9 +7,10 @@ import os
 
 load_dotenv()
 
-def process_pdf(file_path: str):
+def process_pdf(file_path: str, original_file_name: str = None):
     import re
-    file_name = Path(file_path).stem
+    # Use the original filename if provided, else fall back to the path's stem
+    file_name = Path(original_file_name).stem if original_file_name else Path(file_path).stem
     # Clean the filename for the collection name (replace spaces and invalid chars with dashes)
     clean_name = re.sub(r'[^a-zA-Z0-9_-]', '-', file_name)
     collection_name = f"RAGNAR-{clean_name}"
