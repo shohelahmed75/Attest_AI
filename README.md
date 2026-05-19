@@ -43,8 +43,8 @@ RAGNAR dynamically supports both **OpenAI** and **Google Gemini** models dependi
 
 ### 2. Clone the Repository
 ```bash
-git clone <your-repo-url>
-cd Genai
+git clone https://github.com/shohelahmed75/RAGNAR.ai
+cd RAGNAR.ai
 ```
 
 ### 3. Start the Vector Database
@@ -70,9 +70,6 @@ Create a `.env` file in the root directory and add your preferred API keys and a
 # Add at least one of the following:
 OPENAI_API_KEY=your_openai_api_key_here
 GOOGLE_API_KEY=your_google_api_key_here
-
-# JWT Secret (Optional, defaults to 'ragnar-super-secret-key')
-SECRET_KEY=your_custom_secret_key
 ```
 
 Start the backend server:
