@@ -666,30 +666,234 @@ button {
   }
 }
 
-.markdown p {
-  margin-bottom: 0.5rem;
+/* Premium Markdown Styles & Dual-Mode UI Components */
+.markdown-render-root {
+  width: 100%;
 }
 
-.markdown p:last-child {
+.md-bold {
+  color: var(--text-bright);
+  font-weight: 700;
+}
+
+.md-italic {
+  font-style: italic;
+  opacity: 0.9;
+}
+
+.inline-code-badge {
+  background: rgba(255, 130, 28, 0.14);
+  color: #ffae68;
+  border: 1px solid rgba(255, 130, 28, 0.22);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-family: 'Fragment Mono', monospace;
+  font-size: 12.5px;
+}
+
+.md-heading {
+  color: var(--text-bright);
+  font-family: 'Kode Mono', monospace;
+  margin-top: 1.3rem;
+  margin-bottom: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.md-h1 {
+  font-size: 20px;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 6px;
+}
+
+.md-h2 {
+  font-size: 18px;
+}
+
+.md-h3 {
+  font-size: 16px;
+}
+
+.md-h4 {
+  font-size: 14.5px;
+}
+
+.md-paragraph {
+  margin-bottom: 0.8rem;
+  line-height: 1.6;
+}
+
+.md-paragraph:last-child {
   margin-bottom: 0;
 }
 
-.markdown strong {
-  color: var(--accent-color);
+.md-unordered-list,
+.md-ordered-list {
+  margin-left: 1.4rem;
+  margin-bottom: 0.8rem;
+  padding-left: 0;
 }
 
-.markdown pre {
-  overflow-x: auto;
-  margin: 0.5rem 0;
-  padding: 0.8rem;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.08);
+.md-unordered-list {
+  list-style-type: square;
 }
 
-.markdown code {
-  color: #f4f4f4;
+.md-li {
+  margin-bottom: 0.4rem;
+  line-height: 1.5;
+}
+
+/* IDE-Style Code Windows */
+.code-block-container {
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  margin: 1rem 0;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+}
+
+.code-block-header {
+  background: #121212;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.code-lang {
+  font-family: 'Kode Mono', monospace;
+  font-size: 10px;
+  color: var(--accent-dim);
+  letter-spacing: 0.1em;
+}
+
+.copy-code-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
   font-family: 'Fragment Mono', monospace;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
 }
+
+.copy-code-btn:hover {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--paper);
+}
+
+.code-block-pre {
+  padding: 16px;
+  margin: 0;
+  overflow-x: auto;
+}
+
+.code-block-pre code {
+  font-family: 'Fragment Mono', monospace;
+  font-size: 13px;
+  color: #e6e8ea;
+  line-height: 1.55;
+  white-space: pre;
+}
+
+/* Fallback Warning Box */
+.fallback-callout-panel {
+  background: linear-gradient(135deg, rgba(255, 130, 28, 0.09) 0%, rgba(255, 130, 28, 0.02) 100%);
+  border: 1px dashed rgba(255, 130, 28, 0.38);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 1.1rem;
+  box-shadow: inset 0 0 10px rgba(255, 130, 28, 0.02);
+  animation: pulseBorder 3s infinite ease-in-out;
+}
+
+@keyframes pulseBorder {
+  0%, 100% { border-color: rgba(255, 130, 28, 0.35); }
+  50% { border-color: rgba(255, 130, 28, 0.6); }
+}
+
+.fallback-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.fallback-icon {
+  font-size: 15px;
+}
+
+.fallback-title {
+  font-family: 'Kode Mono', monospace;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--accent-color);
+  text-transform: uppercase;
+}
+
+.fallback-description {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #a4abb0;
+}
+
+/* Dual-Mode Badging and Layouts */
+.context-strip-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 65%;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-family: 'Fragment Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  white-space: nowrap;
+}
+
+.badge-document {
+  background: rgba(255, 130, 28, 0.14);
+  color: var(--accent-color);
+  border: 1px solid rgba(255, 130, 28, 0.22);
+}
+
+.badge-general {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.clear-context-btn {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  padding: 2px;
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s;
+  flex: 0 0 auto;
+}
+
+.clear-context-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: #b52626;
+}
+
 
 .mobile-menu-btn {
   display: none;

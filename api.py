@@ -124,10 +124,11 @@ async def upload_pdf(file: UploadFile = File(...), current_user: User = Depends(
 @app.post("/chat")
 async def chat_endpoint(req: ChatRequest, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
-        # Verify ownership
-        doc = db.query(Document).filter(Document.collection_name == req.collection_name, Document.user_id == current_user.id).first()
-        if not doc:
-            raise HTTPException(status_code=403, detail="Not authorized to access this collection")
+        # Verify ownership unless in General Chat Mode
+        if req.collection_name and req.collection_name != "general":
+            doc = db.query(Document).filter(Document.collection_name == req.collection_name, Document.user_id == current_user.id).first()
+            if not doc:
+                raise HTTPException(status_code=403, detail="Not authorized to access this collection")
 
         if os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY"):
             from g_ai import g_ragnar_chat

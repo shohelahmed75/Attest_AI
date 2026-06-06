@@ -20,7 +20,11 @@ def get_vector_db(collection_name: str):
 
 def g_ragnar():    
     message_history = []
-    vector_db = get_vector_db("RAGNAR_GOOGLE")
+    vector_db = None
+    try:
+        vector_db = get_vector_db("RAGNAR_GOOGLE")
+    except Exception as e:
+        print(f"Could not connect to Qdrant vector database: {e}. Running in General Chat Mode.")
 
     while True:
         Ask = input("\n\033[96mType Here: \033[0m")
@@ -28,18 +32,33 @@ def g_ragnar():
             print("Goodbye")
             break
 
-        vector_result = vector_db.similarity_search(query = Ask)
-        context = "\n\n\n".join([f"Page Content: {res.page_content}\nPage Number: {res.metadata['page_label']}"
-        for res in vector_result])
+        context = ""
+        if vector_db:
+            try:
+                vector_result = vector_db.similarity_search(query = Ask, k = 5)
+                context_parts = []
+                for res in vector_result:
+                    page_idx = res.metadata.get('page')
+                    page_val = f"Page {int(page_idx) + 1}" if page_idx is not None else res.metadata.get('page_label', 'Unknown')
+                    context_parts.append(f"Page Content: {res.page_content}\nPage Number: {page_val}")
+                context = "\n\n\n".join(context_parts)
+            except Exception as e:
+                print(f"[Warning] Failed to fetch context from Qdrant: {e}")
+
         assistant = ""
 
+        if context:
+            user_text = f"context: {context}\n\nuser question: {Ask}"
+        else:
+            user_text = Ask
+
         message_history.append(
-            {"role": "user", "parts": [{"text": f"context: {context}\n\nuser question: {Ask}"}]}
+            {"role": "user", "parts": [{"text": user_text}]}
         )
 
         while True:
             response = ai.models.generate_content_stream(
-                model = "gemini-2.5-pro",
+                model = "gemini-2.5-flash",
                 contents = message_history,
                 config = types.GenerateContentConfig(
                     system_instruction = SYSTEM_PROMPT
@@ -58,28 +77,45 @@ def g_ragnar():
             break
 
 def g_ragnar_chat(query: str, history: list, collection_name: str = "RAGNAR_GOOGLE"):
-    vector_db = get_vector_db(collection_name)
-
-    vector_result = vector_db.similarity_search(query = query)
-    context = "\n\n\n".join([f"Page Content: {res.page_content}\nPage Number: {res.metadata['page_label']}"
-    for res in vector_result])
+    context = ""
+    
+    # Only retrieve from Qdrant if we are in Document QA Mode (not "general")
+    if collection_name and collection_name != "general":
+        try:
+            vector_db = get_vector_db(collection_name)
+            vector_result = vector_db.similarity_search(query = query, k = 5)
+            context_parts = []
+            for res in vector_result:
+                page_idx = res.metadata.get('page')
+                page_val = f"Page {int(page_idx) + 1}" if page_idx is not None else res.metadata.get('page_label', 'Unknown')
+                context_parts.append(f"Page Content: {res.page_content}\nPage Number: {page_val}")
+            context = "\n\n\n".join(context_parts)
+        except Exception as e:
+            # Resilient fallback: log warning and continue with empty context (running in general fallback mode)
+            print(f"[Warning] Failed to retrieve context from Qdrant: {e}")
 
     formatted_history = []
     for msg in history:
         formatted_history.append({"role": msg["role"], "parts": [{"text": msg["content"]}]})
 
+    if context:
+        user_text = f"context: {context}\n\nuser question: {query}"
+    else:
+        user_text = query
+
     formatted_history.append(
-        {"role": "user", "parts": [{"text": f"context: {context}\n\nuser question: {query}"}]}
+        {"role": "user", "parts": [{"text": user_text}]}
     )
 
     response = ai.models.generate_content(
-        model = "gemini-3.1-flash-lite",
+        model = "gemini-2.5-flash",
         contents = formatted_history,
         config = types.GenerateContentConfig(
             system_instruction = SYSTEM_PROMPT
         )
     )
     return response.text
+
 
 if __name__ == "__main__":
     g_ragnar()
