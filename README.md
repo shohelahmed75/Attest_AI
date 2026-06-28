@@ -1,4 +1,4 @@
-# Attest - Multi-User Document Intelligence Engine
+# Attest : Multi-User Document Intelligence Engine
 
 Attest is a powerful, full-stack Retrieval-Augmented Generation (RAG) AI assistant. Built with **FastAPI**, **React**, and **LangChain**, it allows multiple users to create accounts, securely upload PDF documents, and chat with an AI that derives its answers strictly from their uploaded documents.
 
@@ -6,7 +6,7 @@ Attest dynamically supports both **OpenAI** and **Google Gemini** models dependi
 
 ---
 
-## ✨ Features
+## Features
 
 - **Full-Stack Web App:** A sleek, responsive, glassmorphism React frontend built with Vite.
 - **Secure Authentication:** JWT-based user authentication with bcrypt password hashing and SQLite for user management.
@@ -19,7 +19,7 @@ Attest dynamically supports both **OpenAI** and **Google Gemini** models dependi
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 **Backend**
 - Python 3.10+, FastAPI, SQLAlchemy, SQLite, passlib (bcrypt), PyJWT
@@ -33,7 +33,7 @@ Attest dynamically supports both **OpenAI** and **Google Gemini** models dependi
 
 ---
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ### 1. Prerequisites
 - **Python 3.10+**
@@ -43,14 +43,14 @@ Attest dynamically supports both **OpenAI** and **Google Gemini** models dependi
 
 ### 2. Clone the Repository
 ```bash
-git clone https://github.com/shohelahmed75/Attest.ai
-cd Attest.ai
+git clone https://github.com/shohelahmed75/Attest_AI
+cd Attest_AI
 ```
 
 ### 3. Start the Vector Database
 Launch the local Qdrant instance using Docker:
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 *(This starts Qdrant locally on port 6333)*
 
@@ -59,7 +59,7 @@ Create a virtual environment and install the required Python dependencies:
 ```bash
 # Create and activate virtual environment
 python3 -m venv venv
-source venv/bin/activate  # On macOS/Linux (use .\venv\Scripts\activate on Windows)
+source venv/bin/activate (use .\venv\Scripts\activate on Windows)
 
 # Install requirements
 pip install -r req.txt
