@@ -89,7 +89,7 @@ npm run dev
 
 ---
 
-## 📖 Usage Guide
+## Usage Guide
 
 1. **Access the App:** Open `http://localhost:5173` in your browser or on your mobile device (the UI is fully responsive!).
 2. **Create an Account:** Register a new user account. Passwords are encrypted instantly.
@@ -99,7 +99,7 @@ npm run dev
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 - **`api.py`**: The FastAPI backend entry point containing routing, auth protection, and file management endpoints.
 - **`auth.py`**: Handles JWT token generation and bcrypt password hashing.
