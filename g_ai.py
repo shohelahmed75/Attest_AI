@@ -18,11 +18,11 @@ def get_vector_db(collection_name: str):
         collection_name = f"{collection_name}-G"
     )
 
-def g_ragnar():    
+def g_attest():
     message_history = []
     vector_db = None
     try:
-        vector_db = get_vector_db("RAGNAR_GOOGLE")
+        vector_db = get_vector_db("ATTEST_GOOGLE")
     except Exception as e:
         print(f"Could not connect to Qdrant vector database: {e}. Running in General Chat Mode.")
 
@@ -65,7 +65,7 @@ def g_ragnar():
                 )
             )
             
-            print("\n\033[92mRAGNAR:\033[0m")
+            print("\n\033[92mATTEST:\033[0m")
             for chunk in response:
                 print(chunk.text, end="", flush=True)
                 assistant += chunk.text
@@ -76,7 +76,7 @@ def g_ragnar():
             )
             break
 
-def g_ragnar_chat(query: str, history: list, collection_name: str = "RAGNAR_GOOGLE"):
+def g_attest_chat(query: str, history: list, collection_name: str = "ATTEST_GOOGLE"):
     context = ""
     
     # Only retrieve from Qdrant if we are in Document QA Mode (not "general")
@@ -118,4 +118,4 @@ def g_ragnar_chat(query: str, history: list, collection_name: str = "RAGNAR_GOOG
 
 
 if __name__ == "__main__":
-    g_ragnar()
+    g_attest()

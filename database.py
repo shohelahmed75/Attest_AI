@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, Column, Integer, String, DateTime, Foreign
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from datetime import datetime
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./ragnar.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./attest.db"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}

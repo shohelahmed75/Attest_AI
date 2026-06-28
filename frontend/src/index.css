@@ -89,18 +89,22 @@ button {
   min-width: 0;
 }
 
-.header h1,
-.studio-hero h2,
-.auth-visual h1 {
-  color: var(--text-bright);
+.attest-logo-wordmark,
+.studio-hero h2 {
   font-family: 'Kode Mono', monospace;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.header h1 {
-  font-size: 26px;
+.attest-logo {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-bright);
+}
+
+.attest-logo-wordmark {
+  font-size: 34px;
   line-height: 1;
 }
 
@@ -530,14 +534,25 @@ button {
 }
 
 .context-strip {
-  max-width: 48%;
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  gap: 10px;
+  min-width: 0;
+  max-width: 420px;
   overflow: hidden;
-  padding: 12px 14px;
+  padding: 6px 6px 6px 16px;
   border-radius: 999px;
   color: var(--ink);
   background: var(--paper);
   font-family: 'Fragment Mono', monospace;
   font-size: 12px;
+}
+
+.context-filename {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -847,11 +862,14 @@ button {
 .context-strip-container {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 10px;
+  min-width: 0;
   max-width: 65%;
 }
 
 .status-badge {
+  flex: 0 0 auto;
   padding: 6px 12px;
   border-radius: 999px;
   font-family: 'Fragment Mono', monospace;
@@ -876,22 +894,31 @@ button {
 }
 
 .clear-context-btn {
-  border: 0;
-  background: transparent;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--ink);
-  padding: 2px;
-  border-radius: 50%;
-  transition: background 0.2s, color 0.2s;
   flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  padding: 0;
+  border-radius: 50%;
+  color: var(--paper);
+  background: var(--ink);
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .clear-context-btn:hover {
-  background: rgba(0, 0, 0, 0.08);
-  color: #b52626;
+  color: var(--paper);
+  background: var(--ink);
+  opacity: 0.82;
+  transform: scale(1.04);
+}
+
+.clear-context-btn svg {
+  width: 17px;
+  height: 17px;
 }
 
 
@@ -946,12 +973,13 @@ button {
   padding: 54px;
 }
 
-.auth-visual h1 {
-  margin-top: 16px;
+.attest-logo-hero {
   color: var(--ink);
+}
+
+.attest-logo-hero .attest-logo-wordmark {
   font-size: 64px;
   line-height: 0.96;
-  white-space: nowrap;
 }
 
 .auth-visual-copy p:not(.section-kicker) {
@@ -1129,10 +1157,11 @@ button {
     padding: 34px;
   }
 
-  .auth-visual h1 {
+  .attest-logo-hero .attest-logo-wordmark {
     font-size: 42px;
     letter-spacing: 0.08em;
   }
+
 }
 
 @media (max-width: 640px) {
@@ -1140,8 +1169,8 @@ button {
     gap: 10px;
   }
 
-  .header h1 {
-    font-size: 21px;
+  .attest-logo-wordmark {
+    font-size: 26px;
   }
 
   .subtitle {
@@ -1179,14 +1208,18 @@ button {
 
   .context-strip {
     max-width: 100%;
-    border-radius: 16px;
+  }
+
+  .context-strip-container {
+    width: 100%;
+    max-width: 100%;
   }
 
   .auth-visual-copy {
     padding: 28px;
   }
 
-  .auth-visual h1 {
+  .attest-logo-hero .attest-logo-wordmark {
     font-size: 34px;
     letter-spacing: 0.06em;
   }
@@ -1207,7 +1240,7 @@ button {
     padding: 24px;
   }
 
-  .auth-visual h1 {
+  .attest-logo-hero .attest-logo-wordmark {
     font-size: 30px;
     letter-spacing: 0.04em;
   }

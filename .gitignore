@@ -173,7 +173,7 @@ pnpm-debug.log*
 *.db
 *.sqlite
 *.sqlite3
-ragnar.db
+attest.db
 
 # Security: secrets and credentials
 # Ignore dotenv files and local env overrides, keep example if present

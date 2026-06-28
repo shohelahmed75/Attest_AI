@@ -14,7 +14,7 @@ from auth import get_password_hash, verify_password, create_access_token, get_cu
 
 load_dotenv()
 
-app = FastAPI(title="RAGNAR API")
+app = FastAPI(title="Attest API")
 
 # Allow CORS for the frontend
 app.add_middleware(
@@ -131,12 +131,12 @@ async def chat_endpoint(req: ChatRequest, current_user: User = Depends(get_curre
                 raise HTTPException(status_code=403, detail="Not authorized to access this collection")
 
         if os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY"):
-            from g_ai import g_ragnar_chat
-            response = g_ragnar_chat(req.query, req.history, req.collection_name)
+            from g_ai import g_attest_chat
+            response = g_attest_chat(req.query, req.history, req.collection_name)
             return {"response": response}
         elif os.getenv("OPENAI_API_KEY"):
-            from o_ai import o_ragnar_chat
-            response = o_ragnar_chat(req.query, req.history, req.collection_name)
+            from o_ai import o_attest_chat
+            response = o_attest_chat(req.query, req.history, req.collection_name)
             return {"response": response}
         else:
             return {"error": "No valid API key found for either Google or OpenAI."}

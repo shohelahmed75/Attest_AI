@@ -17,13 +17,13 @@ def get_vector_db(collection_name: str):
         collection_name = f"{collection_name}-O"
     )
 
-def o_ragnar():
+def o_attest():
     message_history = [
         {"role": "system", "content": SYSTEM_PROMPT}
     ]
     vector_db = None
     try:
-        vector_db = get_vector_db("RAGNAR_OPENAI")
+        vector_db = get_vector_db("ATTEST_OPENAI")
     except Exception as e:
         print(f"Could not connect to Qdrant vector database: {e}. Running in General Chat Mode.")
 
@@ -66,10 +66,10 @@ def o_ragnar():
                 {"role": "assistant", "content": result}
             )
 
-            print(f"\n\033[98mRAGNAR: {result}\033[0m")
+            print(f"\n\033[98mATTEST: {result}\033[0m")
             break
 
-def o_ragnar_chat(query: str, history: list, collection_name: str = "RAGNAR_OPENAI"):
+def o_attest_chat(query: str, history: list, collection_name: str = "ATTEST_OPENAI"):
     context = ""
     
     # Only retrieve from Qdrant if we are in Document QA Mode (not "general")
@@ -113,4 +113,4 @@ def o_ragnar_chat(query: str, history: list, collection_name: str = "RAGNAR_OPEN
 
 
 if __name__ == "__main__":
-    o_ragnar()
+    o_attest()

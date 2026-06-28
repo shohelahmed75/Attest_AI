@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowRight } from 'react-icons/fi';
+import AttestLogo from '../components/AttestLogo';
 import '../index.css';
 
 const AuthPage: React.FC = () => {
@@ -41,9 +42,9 @@ const AuthPage: React.FC = () => {
 
   return (
     <main className="auth-page">
-      <section className="auth-visual" aria-label="RAGNAR introduction">
+      <section className="auth-visual" aria-label="Attest introduction">
         <div className="auth-visual-copy">
-          <h1>R A G N A R</h1>
+          <AttestLogo className="attest-logo-hero" />
           <p>Upload PDFs, ask questions, and turn dense documents into clear answers.</p>
         </div>
       </section>
@@ -51,7 +52,7 @@ const AuthPage: React.FC = () => {
       <section className="auth-card" aria-label={isLogin ? 'Login form' : 'Register form'}>
         <div className="panel-heading auth-heading">
           <p className="section-kicker">{isLogin ? 'L o g i n . 0 1' : 'J o i n . 0 1'}</p>
-          <h2>{isLogin ? 'Enter RAGNAR' : 'Create Account'}</h2>
+          <h2>{isLogin ? 'Enter Attest' : 'Create Account'}</h2>
         </div>
 
         {error && (

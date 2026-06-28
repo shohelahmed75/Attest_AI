@@ -17,7 +17,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const getInitialState = () => {
-    const savedToken = localStorage.getItem('ragnar_token');
+    const savedToken = localStorage.getItem('attest_token');
     if (savedToken) {
       try {
         const decoded: any = jwtDecode(savedToken);
@@ -25,10 +25,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           axios.defaults.headers.common['Authorization'] = `Bearer ${savedToken}`;
           return { token: savedToken, user: { username: decoded.sub } };
         } else {
-          localStorage.removeItem('ragnar_token');
+          localStorage.removeItem('attest_token');
         }
       } catch (e) {
-        localStorage.removeItem('ragnar_token');
+        localStorage.removeItem('attest_token');
       }
     }
     return { token: null, user: null };
@@ -48,14 +48,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [token]);
 
   const login = (newToken: string) => {
-    localStorage.setItem('ragnar_token', newToken);
+    localStorage.setItem('attest_token', newToken);
     const decoded: any = jwtDecode(newToken);
     setUser({ username: decoded.sub });
     setToken(newToken);
   };
 
   const logout = () => {
-    localStorage.removeItem('ragnar_token');
+    localStorage.removeItem('attest_token');
     setToken(null);
   };
 

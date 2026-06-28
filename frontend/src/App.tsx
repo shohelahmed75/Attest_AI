@@ -5,6 +5,7 @@ import { FiFileText, FiLogOut, FiMenu, FiSend, FiTrash2, FiUploadCloud, FiX } fr
 import './index.css';
 import { useAuth } from './context/AuthContext';
 import AuthPage from './pages/AuthPage';
+import AttestLogo from './components/AttestLogo';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -155,7 +156,7 @@ const MarkdownRenderer: React.FC<{ text: string }> = ({ text }) => {
             <span className="fallback-title">General Knowledge Fallback</span>
           </div>
           <p className="fallback-description">
-            The requested details are not present in the current document. RAGNAR has synthesized this response from general intelligence.
+            The requested details are not present in the current document. Attest has synthesized this response from general intelligence.
           </p>
         </div>
       )}
@@ -170,7 +171,7 @@ const Dashboard: React.FC = () => {
   const { user, logout } = useAuth();
 
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: `Welcome, ${user?.username}. I am RAGNAR, your advanced document intelligence engine. Ask a general question to start in **General Chat Mode**, or upload/select a PDF from the library to begin **Document QA Mode**.` }
+    { role: 'assistant', content: `Welcome, ${user?.username}. I am Attest, your advanced document intelligence engine. Ask a general question to start in **General Chat Mode**, or upload/select a PDF from the library to begin **Document QA Mode**.` }
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -321,7 +322,7 @@ const Dashboard: React.FC = () => {
             {isSidebarOpen ? <FiX /> : <FiMenu />}
           </button>
           <div className="brand-copy">
-            <h1>RAGNAR</h1>
+            <AttestLogo />
             <p className="subtitle">Document Intelligence Engine</p>
           </div>
         </div>
@@ -415,7 +416,7 @@ const Dashboard: React.FC = () => {
             </div>
             <div className="context-strip-container">
               <span className={`status-badge ${activeCollection ? 'badge-document' : 'badge-general'}`}>
-                {activeCollection ? '📄 Document QA Mode' : '🌐 General Chat Mode'}
+                {activeCollection ? 'Document QA Mode' : 'General Chat Mode'}
               </span>
               {activeCollection && (
                 <div className="context-strip">
@@ -456,7 +457,7 @@ const Dashboard: React.FC = () => {
             <input
               type="text"
               className="chat-input"
-              placeholder={activeCollection ? 'Ask RAGNAR a question about this document...' : 'Ask RAGNAR a general question (General Chat)...'}
+              placeholder={activeCollection ? 'Ask Attest a question about this document...' : 'Ask Attest a general question (General Chat)...'}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
